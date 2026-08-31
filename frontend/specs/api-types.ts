@@ -53,18 +53,3 @@ export interface CategoryEntry {
 
 /** Raw array returned by the top-categories endpoint, without a response wrapper. */
 export type TopCategoriesResponse = CategoryEntry[]
-
-/** One grouped financial summary returned by the summary endpoint. */
-export interface SummaryEntry {
-  /** Grouped period label: `YYYY-MM-DD`, `YYYY-Www`, or `YYYY-MM` for day, week, or month grouping. */
-  period: string
-  /** Total income for the period. */
-  income: number
-  /** Total outcome for the period. */
-  outcome: number
-  /** Period income minus period outcome. */
-  net: number
-}
-
-/** Raw array returned by the summary endpoint, without a response wrapper. */
-export type SummaryResponse = SummaryEntry[]

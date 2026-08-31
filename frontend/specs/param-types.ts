@@ -23,11 +23,3 @@ export interface TopCategoriesParams extends DateRangeFilter {
   /** Required business segment: `B2B` or `B2C`. */
   business_type: BusinessType
 }
-
-/** Query parameters used by the feature's income summary request. */
-export interface SummaryParams extends DateRangeFilter {
-  /** Feature-specific operation direction, fixed to income. */
-  operation_type: 'income'
-  /** Required business segment: `B2B` or `B2C`; the omitted API `group_by` parameter defaults to monthly grouping. */
-  business_type: BusinessType
-}

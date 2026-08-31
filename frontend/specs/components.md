@@ -85,19 +85,18 @@ Render exactly these four columns:
 |---|---|---|
 | `facets` | `FacetsResponse` | Supplies the global available category list. |
 | `dateRange` | `DateRangeFilter` | The optional date range shared by all comparison requests. |
-| `topCategoriesByBusinessType` | `Record<BusinessType, TopCategoriesResponse>` | Supplies each group's ranked income categories. |
-| `summariesByBusinessType` | `Record<BusinessType, SummaryResponse>` | Supplies each group's summary entries for full income totals and chart values. |
+| `topCategoriesByBusinessType` | `Record<BusinessType, TopCategoriesResponse>` | Supplies each group's complete set of non-zero income categories for the current five-category contract. |
 | `topCategoriesParamsByBusinessType` | `Record<BusinessType, TopCategoriesParams>` | Defines the income, limit-five, business-type, and optional date parameters for each top-category request. |
-| `summaryParamsByBusinessType` | `Record<BusinessType, SummaryParams>` | Defines the income, business-type, and optional date parameters for each summary request. |
 
 #### Layout and behavior
 
 - Use a two-column panel layout on the new page, with one panel for each `BusinessType`: `B2B` and `B2C`.
-- Each panel renders its own `TopCategoriesTable` and derives its full group income by summing `SummaryEntry.income` across that group's `SummaryResponse`.
-- Apply the same optional `dateRange` to both the top-category and summary parameters for both groups. If only one boundary exists, include only that boundary.
+- Each panel renders its own `TopCategoriesTable`. Derive each full group income by summing `CategoryEntry.total_amount` across that group's complete `TopCategoriesResponse`.
+- Apply the same optional `dateRange` to the top-category parameters for both groups. If only one boundary exists, include only that boundary.
+- The API defines exactly five categories. With `operation_type=income`, `limit=5`, and one `business_type`, each response therefore contains every category with a non-zero income total for that group; omitted categories contribute zero.
 - Use `facets.categories` as the available category list. These facets are global; do not describe them as group-specific.
 - Each panel independently shows an explicit empty state when its `TopCategoriesResponse` is empty. An empty group must not hide the other group, and a response containing fewer than five rows is valid.
-- Render `IncomeComparisonChart` with the two summary responses after the category panels.
+- Render `IncomeComparisonChart` with the two top-category responses after the category panels.
 
 ### `TopCategoriesTable`
 
@@ -108,34 +107,33 @@ Render exactly these four columns:
 | Prop | TypeScript type | Purpose |
 |---|---|---|
 | `businessType` | `BusinessType` | Identifies whether the table belongs to the B2B or B2C panel. |
-| `entries` | `TopCategoriesResponse` | Supplies zero to five ranked income category rows for the group. |
-| `groupTotalIncome` | `number` | The full group total derived from that group's complete `SummaryResponse`. |
+| `entries` | `TopCategoriesResponse` | Supplies every non-zero income category row for the group, ordered by total and limited to the five-category enum. |
 | `availableCategories` | `FacetsResponse['categories']` | Supplies the global category choices, not group-specific facets. |
 
 #### Layout and behavior
 
 - Render category, total income, and percentage of the full group total for every returned row.
 - Format `total_amount` as currency.
-- Derive the percentage as `total_amount / groupTotalIncome * 100`. Never use the top-five sum as the denominator.
+- Derive `groupTotalIncome` inside the table as `sum(entry.total_amount)` over `entries`, then derive each percentage as `total_amount / groupTotalIncome * 100`.
 - When `groupTotalIncome` is zero, do not divide by zero; display the row percentage as `0%`.
 - If `entries` is empty, show an explicit message for that panel, such as “No top income categories found for B2B.” Fewer than five rows is a valid result and must render without placeholder rows.
 
 ### `IncomeComparisonChart`
 
-**Responsibility:** Compare total B2B income with total B2C income using the complete summary responses.
+**Responsibility:** Compare total B2B income with total B2C income using the two complete top-category responses.
 
 #### Props
 
 | Prop | TypeScript type | Purpose |
 |---|---|---|
-| `summariesByBusinessType` | `Record<BusinessType, SummaryResponse>` | Supplies the summary entries used to derive both chart values. |
+| `topCategoriesByBusinessType` | `Record<BusinessType, TopCategoriesResponse>` | Supplies the complete non-zero category entries used to derive both chart values. |
 
 #### Layout and behavior
 
 - Render exactly two points or bars: B2B total income and B2C total income.
-- Derive each value by summing `SummaryEntry.income` across that business group's `SummaryResponse`; do not use the top-category totals.
+- Derive each value by summing `CategoryEntry.total_amount` across that business group's `TopCategoriesResponse`.
 - Format chart values as currency.
-- If both groups have no summary data, show an explicit comparison empty state instead of rendering a misleading zero-value chart.
+- If both group arrays are empty, show an explicit comparison empty state instead of rendering a misleading zero-value chart. If only one array is empty, render that group's value as zero and keep the other group's value visible.
 
 ## Shared request states
 
