@@ -9,6 +9,7 @@ This directory is the maintainable entry point for the repository's verified pro
 1. [`product-overview.md`](./product-overview.md) — demonstrated behavior, data flow, capability boundaries, and non-claims.
 2. [`tech-stack.md`](./tech-stack.md) — declared technologies, dependencies, services, configuration, and existing commands.
 3. [`current-status.md`](./current-status.md) — latest verification, warnings, gaps, rule state, completed phases, and evidence-backed decisions.
+4. [`progress.md`](./progress.md) — current branch work, verification evidence, manual limits, and next steps.
 
 Repository guardrails are authoritative for future work:
 
