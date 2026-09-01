@@ -39,14 +39,14 @@ The exact external skill selections were:
 | N/A — backend | Backend tests | Backend/API paths are untouched by all three branch commits and this work unit. |
 | Required — handoff | Read back four intended files; `git diff --check`; `git status --short --untracked-files=all` | Passed; only the intended documentation and skill files changed besides excluded untracked `.atl/` files. |
 
-**Internal skill validation:** **WARN (conditional pass).** The demo correctly classifies `.skills/**`, `AGENTS.md`, and `memory-bank/**`-only work as documentation-only, while the full `main..HEAD` set requires frontend lint, test, build, and served-UI/manual checks. Commands and documentation are explicit, but the pending manual accessibility boundary prevents a final pass.
+**Internal skill validation:** **PASS.** The skill correctly classifies `.skills/**`, `AGENTS.md`, and `memory-bank/**`-only work as documentation-only, while the full `main..HEAD` set requires frontend lint, test, build, and served-UI/manual checks. Commands and documentation are explicit, and the final manual browser verification was completed before PR preparation.
 
 ## Warnings and manual limits
 
 - **Known warning:** the successful frontend build emitted the existing chunk-size warning; the generated JS chunk was 584.88 kB minified, above 500 kB. It was recorded, not remediated.
-- **Acceptance blocker:** served-UI/manual accessibility, visual, responsive, chart-interaction, and browser-console verification is still pending. HTTP/runtime behavior was verified for the accessibility and React/Vite work units, but that still does not prove those browser boundaries; final branch acceptance remains blocked until a human confirms them.
+- **Manual verification completed:** the user confirmed keyboard/chart interaction, accessibility tree or screen-reader checks, loading/error/empty-state announcements, contrast, forced-colors/high-contrast behavior, zoom, responsive layout, and browser-console review on the served app. No manual issues were reported.
 
 ## Next steps toward PR
 
 1. Keep `.atl/` excluded and do not stage it.
-2. Complete the manual browser accessibility checks before preparing the PR.
+2. Push `feature/agent-skills` and open the required PR against `main`.
