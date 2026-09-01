@@ -3,7 +3,8 @@
 ## Current work unit
 
 - **Branch:** `feature/agent-skills`.
-- **Committed branch work:** `89c3b0d` (dashboard accessibility semantics), `8fc4810` (React performance guidance), `3cb0c95` (empty-input utility coverage), and `60db500` (internal skill plus memory updates).
+- **Committed skill implementation work:** `89c3b0d` (dashboard accessibility semantics), `8fc4810` (React performance guidance), `3cb0c95` (empty-input utility coverage), and `60db500` (internal skill plus memory updates).
+- **Branch maintenance note:** later evidence-only commits may update this progress file; confirm the current branch tip with `git log --oneline main..HEAD`.
 - **Exact committed `main..HEAD` paths:** `frontend/src/App.tsx`, `frontend/src/components/dashboard/dashboard-header.tsx`, `frontend/src/components/dashboard/income-outcome-chart.tsx`, `frontend/src/components/dashboard/kpi-card.tsx`, `frontend/src/components/dashboard/profit-percent-chart.tsx`, `frontend/src/components/ui/card.tsx`, `frontend/src/lib/financial-utils.test.ts`, `frontend/src/lib/financial-utils.ts`, `.skills/dashboard-change-verifier/SKILL.md`, `AGENTS.md`, `memory-bank/progress.md`, and `memory-bank/README.md`.
 
 ## Skills and sources
