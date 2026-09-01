@@ -33,6 +33,17 @@ const sampleMovements: FinancialMovement[] = [
 ];
 
 describe("computeKPIs", () => {
+  it("returns neutral metrics for an empty movement list", () => {
+    const metrics = computeKPIs([]);
+
+    expect(metrics).toEqual({
+      totalIncome: 0,
+      totalOutcome: 0,
+      profit: 0,
+      profitPercent: 0,
+    });
+  });
+
   it("calculates totals and profit values", () => {
     const metrics = computeKPIs(sampleMovements);
 
@@ -61,6 +72,12 @@ describe("computeKPIs", () => {
 });
 
 describe("computeMonthlyData", () => {
+  it("returns no data points for an empty movement list", () => {
+    const monthlyData = computeMonthlyData([]);
+
+    expect(monthlyData).toEqual([]);
+  });
+
   it("returns chronological year-month points with aggregated totals", () => {
     const unsortedCrossYearMovements: FinancialMovement[] = [
       {
